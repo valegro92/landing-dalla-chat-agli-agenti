@@ -1,0 +1,7 @@
+{
+  "name": "landing-dalla-chat-agli-agenti",
+  "private": true,
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0"
+  }
+}
