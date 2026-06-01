@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dalla chat agli Agenti — componi la tua cassetta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.5.0/tabler-icons.min.css">
+<style>
+  :root{color-scheme:light;--cream:#FAF6EF;--card:#FFFFFF;--ink:#20302B;--muted:#6B756F;--teal:#1F7A6D;--teal-d:#155A50;--amber:#E0892B;--amber-d:#7a4d12;--line:#E7E0D4;--soft:#F2ECE0}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 18px 70px;position:relative;overflow:hidden}
+  .kit{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;position:sticky;top:10px;z-index:6}
+  .kit .lab{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-right:4px}
+  .slot{flex:1;display:flex;gap:9px;align-items:center;border:1px dashed var(--line);border-radius:12px;padding:9px 11px;opacity:.55;transition:all .35s}
+  .slot.full{opacity:1;border-style:solid;border-color:var(--teal);background:#EEF6F3}
+  .slot i{font-size:20px;color:var(--muted)}
+  .slot.full i{color:var(--teal)}
+  .slot.pop{animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(.8)}45%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .slot b{font-size:13px;font-weight:500;display:block;line-height:1.2}
+  .slot small{font-size:11px;color:var(--muted)}
+  .kick{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-top:22px}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.1;margin:.3em 0 .3em}
+  p.lead{font-size:17px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  .choice{display:flex;gap:13px;align-items:center;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:16px;cursor:pointer;font-family:inherit;font-size:16px;color:var(--ink);transition:transform .12s,border-color .15s}
+  .choice:hover{border-color:var(--teal);transform:translateY(-2px)}
+  .choice i{font-size:24px;color:var(--teal);flex:none}
+  .choice b{font-weight:500}.choice .sub{display:block;font-size:13px;color:var(--muted)}
+  .stack{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+  .write{border:1px solid var(--amber);background:#FDF4E6;border-radius:14px;padding:16px;margin-top:14px}
+  .write .wh{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--amber-d)}
+  textarea{width:100%;min-height:64px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;background:#fff;color:var(--ink);resize:vertical;margin-top:10px}
+  .btn{background:var(--teal);color:#fff;border:0;border-radius:12px;padding:13px 22px;font-size:16px;font-weight:500;cursor:pointer;font-family:inherit}
+  .btn.amber{background:var(--amber);color:#3a2a10}
+  .btn.sm{padding:10px 16px;font-size:14px;margin-top:10px}
+  .btn.ghost{background:transparent;color:var(--teal-d);border:1px solid var(--teal)}
+  .row{display:flex;gap:10px;align-items:center;margin-top:22px;flex-wrap:wrap}
+  .back{background:none;border:0;color:var(--muted);cursor:pointer;font-family:inherit;font-size:15px}
+  .ba{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#fff;margin-bottom:10px}
+  .ba .l{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+  .ba.before .l{color:var(--amber)}.ba.after .l{color:var(--teal)}
+  .ba .t{font-size:18px;font-family:'Fraunces',serif;margin-top:3px}
+  .arrowdn{text-align:center;color:var(--muted);font-size:20px;margin:-2px 0 8px}
+  .tappa{display:inline-flex;align-items:center;gap:7px;background:#E9F3F0;color:var(--teal-d);border-radius:99px;padding:7px 13px;font-size:14px;font-weight:500;margin-top:4px}
+  .medal{width:96px;height:96px;border-radius:99px;background:radial-gradient(circle at 50% 38%,#2DB89A,#1F7A6D);color:#fff;display:flex;align-items:center;justify-content:center;font-size:46px;margin:6px auto 14px;box-shadow:0 8px 20px rgba(31,122,109,.35);animation:pop .6s ease}
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--ink);color:#fff;padding:11px 18px;border-radius:99px;font-size:14px;font-weight:500;opacity:0;transition:opacity .3s;z-index:20;display:flex;gap:8px;align-items:center}
+  .toast.show{opacity:1}.toast i{color:#FFD79A}
+  .card-soft{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px}
+  .quote{font-family:'Fraunces',serif;font-size:20px;line-height:1.4}
+  .conf{position:absolute;top:-10px;width:9px;height:14px;border-radius:2px;opacity:0;will-change:transform}
+  @keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(620px) rotate(540deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kit" id="kit">
+    <span class="lab">La tua cassetta</span>
+    <div class="slot" data-k="0"><i class="ti ti-briefcase"></i><span><b>Il banco</b><small>il tuo mondo</small></span></div>
+    <div class="slot" data-k="1"><i class="ti ti-target-arrow"></i><span><b>Il problema</b><small>cosa risolvi</small></span></div>
+    <div class="slot" data-k="2"><i class="ti ti-robot"></i><span><b>L'agente</b><small>la soluzione</small></span></div>
+  </div>
+  <div id="stage"></div>
+</div>
+<div class="toast" id="toast"><i class="ti ti-tool"></i><span id="toasttx"></span></div>
+<script>
+const ROLES=[
+ {id:'amministrazione',label:'Amministrazione',sub:'conti, preventivi, scadenze',icon:'ti-calculator'},
+ {id:'commerciale',label:'Commerciale',sub:'clienti, offerte, follow-up',icon:'ti-businessplan'},
+ {id:'marketing',label:'Marketing',sub:'contenuti, canali, campagne',icon:'ti-speakerphone'},
+ {id:'operations',label:'Operations',sub:'processi, report, documenti',icon:'ti-settings-2'},
+ {id:'hr',label:'Persone / HR',sub:'selezione, onboarding',icon:'ti-users'},
+ {id:'studio',label:'Studio professionale',sub:'pratiche, norme, verbali',icon:'ti-scale'}
+];
+const PAINS={
+ amministrazione:[
+  {t:'Rincorrere pagamenti e solleciti',out:'Un agente che riconcilia gli scaduti e prepara i solleciti, col tuo tono.',tappa:'M3 · Saper delegare'},
+  {t:'Rifare ogni preventivo da zero',out:'Un agente che monta il preventivo su misura dai tuoi listini.',tappa:'M3 · Saper delegare'},
+  {t:'Mettere ordine tra scontrini e prima nota',out:'Dai a Claude foto e PDF: ti restituisce una prima nota ordinata.',tappa:'M2 · Saper dare contesto'},
+  {t:'Le scadenze fiscali che incombono',out:'Un piccolo scadenzario che ti avvisa e prepara le bozze, fatto da te.',tappa:'M4 · Saper costruire'},
+  {t:'Rimettere insieme i numeri ogni settimana',out:'Un report settimanale che si scrive da solo, da rivedere.',tappa:'M3 · Saper delegare'}
+ ],
+ commerciale:[
+  {t:'Rincorrere i follow-up dopo gli incontri',out:'Un agente che, dopo ogni incontro, prepara e tiene i follow-up al posto tuo.',tappa:'M3 · Saper delegare'},
+  {t:'Rifare ogni offerta da capo',out:'Un agente che genera l’offerta su misura dal profilo del cliente.',tappa:'M3 · Saper delegare'},
+  {t:'Tenere il CRM aggiornato',out:'Un agente che trasforma le note della call in CRM aggiornato.',tappa:'M3 · Saper delegare'},
+  {t:'Capire quali lead valgono davvero',out:'Claude legge i contatti in arrivo e te li smista per priorità.',tappa:'M2 · Saper dare contesto'},
+  {t:'Avere la pipeline sott’occhio',out:'Una dashboard della pipeline, costruita da te in un pomeriggio.',tappa:'M4 · Saper costruire'}
+ ],
+ marketing:[
+  {t:'Riempire il calendario editoriale',out:'Un agente che pianifica un mese di contenuti in un’ora, con te.',tappa:'M3 · Saper delegare'},
+  {t:'Riadattare lo stesso contenuto per ogni canale',out:'Un agente che declina un tuo post per LinkedIn, IG e blog.',tappa:'M3 · Saper delegare'},
+  {t:'Scrivere la newsletter ogni volta da zero',out:'Un agente che monta la bozza dai tuoi materiali, nel tuo tono.',tappa:'M3 · Saper delegare'},
+  {t:'Far partire una landing senza sviluppatore',out:'Una pagina che converte, costruita da te in un pomeriggio.',tappa:'M4 · Saper costruire'},
+  {t:'Capire cosa funziona davvero',out:'Claude legge i tuoi dati e ti racconta cosa sta rendendo.',tappa:'M2 · Saper dare contesto'}
+ ],
+ operations:[
+  {t:'Scrivere i report di stato ogni settimana',out:'Un agente che ti scrive il report settimanale, da rivedere.',tappa:'M3 · Saper delegare'},
+  {t:'Trasformare le riunioni in cose da fare',out:'Dai a Claude il verbale: ne tira fuori i task assegnati.',tappa:'M2 · Saper dare contesto'},
+  {t:'Mettere ordine tra file e documenti',out:'Un agente che ordina e rinomina le tue cartelle per te.',tappa:'M3 · Saper delegare'},
+  {t:'Avere i numeri sparsi in un colpo d’occhio',out:'Una dashboard dei tuoi numeri, su misura, fatta da te.',tappa:'M4 · Saper costruire'},
+  {t:'Non perdere scadenze e monitoraggi',out:'Un’automazione che ogni mattina ti porta cosa scade e cosa cambia.',tappa:'M4 · Saper costruire'}
+ ],
+ hr:[
+  {t:'Leggere montagne di CV',out:'Un agente che pre-filtra le candidature sui criteri che conti tu.',tappa:'M3 · Saper delegare'},
+  {t:'Far partire l’onboarding di ognuno',out:'Un percorso di onboarding che si gestisce quasi da solo.',tappa:'M3 · Saper delegare'},
+  {t:'Rispondere sempre alle stesse domande',out:'Un assistente con le risposte HR sempre aggiornate.',tappa:'M2 · Saper dare contesto'},
+  {t:'Scrivere ogni volta le job description',out:'Un agente che sforna la bozza di JD dal ruolo che gli descrivi.',tappa:'M3 · Saper delegare'},
+  {t:'Un posto unico per l’onboarding',out:'Un mini-portale onboarding, costruito da te.',tappa:'M4 · Saper costruire'}
+ ],
+ studio:[
+  {t:'Cercare la norma giusta ogni volta',out:'Un agente che trova e sintetizza la norma giusta in minuti.',tappa:'M2 · Saper dare contesto'},
+  {t:'Sintetizzare pratiche e sentenze lunghe',out:'Dai a Claude documenti lunghi: ti restituisce sintesi puntuali.',tappa:'M2 · Saper dare contesto'},
+  {t:'Scrivere i verbali dopo ogni incontro',out:'Un agente che dalla riunione prepara il verbale formattato.',tappa:'M3 · Saper delegare'},
+  {t:'Non perdere le scadenze degli adempimenti',out:'Un’automazione che ti avvisa per tempo, ogni mattina.',tappa:'M4 · Saper costruire'},
+  {t:'Preparare parcelle e calcoli ricorrenti',out:'Un piccolo strumento che li calcola al posto tuo, fatto da te.',tappa:'M4 · Saper costruire'}
+ ]
+};
+const state={step:0,role:null,roleLabel:'',pain:null};
+const stage=document.getElementById('stage');
+function fillSlot(k,label){const s=document.querySelector('.slot[data-k="'+k+'"]');if(s&&!s.classList.contains('full')){s.classList.add('full','pop');toast(label);}}
+function toast(tx){const t=document.getElementById('toast');document.getElementById('toasttx').textContent='Attrezzo conquistato: '+tx;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2200);}
+function render(){
+ if(state.step===0){stage.innerHTML='<div class="kick">La Cassetta degli AI-trezzi · Masterclass</div><h1>Componi la tua cassetta.<br>Disegna il tuo pezzo del corso.</h1><p class="lead">Non è un corso preconfezionato: lo costruiamo sui processi veri di chi partecipa. In tre mosse conquisti i tuoi tre attrezzi — e il tuo caso entra nel programma.</p><div class="row"><button class="btn" id="go">Apri la cassetta</button><span style="color:var(--muted);font-size:14px">2 minuti, tre attrezzi</span></div>';document.getElementById('go').onclick=()=>{state.step=1;render();};return;}
+ if(state.step===1){stage.innerHTML='<div class="kick">Attrezzo 1 di 3 · Il banco</div><h1>Qual è il tuo mondo?</h1><div class="grid" id="g"></div>';const g=document.getElementById('g');ROLES.forEach(r=>{const b=document.createElement('button');b.className='choice';b.innerHTML='<i class="ti '+r.icon+'"></i><span><b>'+r.label+'</b><span class="sub">'+r.sub+'</span></span>';b.onclick=()=>{state.role=r.id;state.roleLabel=r.label;fillSlot(0,'Il banco');state.step=2;setTimeout(render,260);};g.appendChild(b);});return;}
+ if(state.step===2){const list=PAINS[state.role]||[];let h='<button class="back" id="bk">‹ indietro</button><div class="kick">Attrezzo 2 di 3 · Il problema</div><h1>Cosa ti ruba più tempo, davvero?</h1><div class="stack" id="s">';list.forEach((p,i)=>{h+='<button class="choice" data-i="'+i+'"><i class="ti ti-clock-hour-4"></i><span><b>'+p.t+'</b><span class="sub">'+p.tappa+'</span></span></button>';});h+='</div><div class="write"><div class="wh"><i class="ti ti-pencil"></i> Non è in lista? Scrivi il tuo caso a parole tue</div><textarea id="cust" placeholder="Es. ogni lunedì perdo un’ora a mettere insieme i numeri della settimana…"></textarea><button class="btn amber sm" id="custgo">Usa il mio caso</button></div>';stage.innerHTML=h;document.getElementById('bk').onclick=()=>{state.step=1;render();};document.querySelectorAll('#s .choice').forEach(b=>b.onclick=()=>{state.pain=list[+b.dataset.i];fillSlot(1,'Il problema');state.step=3;setTimeout(render,260);});document.getElementById('custgo').onclick=()=>{const v=document.getElementById('cust').value.trim();if(!v){document.getElementById('cust').focus();return;}state.pain={t:v,out:'Un agente che se ne occupa al posto tuo, costruito sul tuo modo di lavorare.',tappa:'M3 · Saper delegare'};fillSlot(1,'Il problema');state.step=3;setTimeout(render,260);};return;}
+ if(state.step===3){const p=state.pain;stage.innerHTML='<button class="back" id="bk">‹ indietro</button><div class="kick">Attrezzo 3 di 3 · L’agente</div><h1>Immagina di delegarlo.</h1><div class="ba before"><div class="l">Oggi</div><div class="t">'+p.t+'</div></div><div class="arrowdn"><i class="ti ti-arrow-down"></i></div><div class="ba after"><div class="l">Con il tuo agente</div><div class="t">'+p.out+'</div></div><div class="tappa"><i class="ti ti-map-pin"></i>Lo costruiamo dal vivo nella tappa '+p.tappa+'</div><div class="row"><button class="btn" id="yes">Sì, è il mio agente</button><button class="back" id="again">prova un altro</button></div>';document.getElementById('bk').onclick=()=>{state.step=2;render();};document.getElementById('again').onclick=()=>{state.step=2;render();};document.getElementById('yes').onclick=()=>{fillSlot(2,'L’agente');state.step=4;setTimeout(render,260);};return;}
+ if(state.step===4){const p=state.pain;stage.innerHTML='<div style="text-align:center"><div class="medal"><i class="ti ti-tools"></i></div></div><div class="kick" style="text-align:center">Cassetta completa</div><h1 style="text-align:center">Il tuo caso è nel programma.</h1><p class="lead" style="text-align:center">«'+p.out+'» è ora parte del corso che costruiamo insieme. Lo ritroverai in aula, nella tappa '+p.tappa+', e ne uscirai con il tuo agente che lo fa davvero.</p><div class="card-soft"><div class="quote">Le 40 ore prendono forma anche grazie a te.</div><div style="font-size:15px;color:var(--muted);margin-top:8px" id="tg">Altri come te stanno componendo la loro cassetta. È questo il senso: un corso cucito sui vostri processi, non lo stesso copione per tutti.</div></div><div class="row" style="justify-content:center"><button class="btn amber" id="end">Ci vediamo in aula</button><button class="back" id="more">Aggiungi un altro caso</button></div>';confetti();document.getElementById('more').onclick=()=>{state.step=2;render();};document.getElementById('end').onclick=()=>{document.getElementById('tg').textContent='Perfetto. Custodiamo noi il tuo caso — a settembre lo costruiamo insieme.';confetti();};return;}
+}
+function confetti(){const w=document.querySelector('.wrap');const cols=['#1F7A6D','#E0892B','#2DB89A','#F2C879'];for(let i=0;i<28;i++){const s=document.createElement('span');s.className='conf';s.style.left=(Math.random()*100)+'%';s.style.background=cols[i%4];s.style.animation='fall '+(1.6+Math.random()*1.4)+'s ease-out '+(Math.random()*.4)+'s forwards';w.appendChild(s);setTimeout(()=>s.remove(),3600);}}
+render();
+</script>
+</body>
+</html>
